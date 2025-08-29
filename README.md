@@ -42,22 +42,22 @@ pip install praw python-dotenv
 
 1. Search all of Reddit for posts with "padel" in the title:
 ```bash
-python main.py -o title_includes_padel.json -t padel
+python main.py -o data/title_includes_padel.json -t padel
 ```
 
 2. Get all posts from r/Padel from the last 30 days:
 ```bash
-python main.py -o recent_padel_posts.json -s Padel --timeframe 30
+python main.py -o data/recent_padel_posts.json -s Padel --timeframe 30
 ```
 
 3. Search r/Padel for posts with "indoor" in the title and limit to 50 posts:
 ```bash
-python main.py -o indoor_padel.json -s Padel -t indoor -l 50
+python main.py -o data/indoor_padel.json -s Padel -t indoor -l 50
 ```
 
 4. Search for posts with "padel" in the title and "indoor" in the content:
 ```bash
-python main.py -o indoor_padel_content.json -t padel -c indoor
+python main.py -o data/indoor_padel_content.json -t padel -c indoor
 ```
 
 ## Command Line Arguments
