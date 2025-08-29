@@ -5,3 +5,6 @@ __pycache__/
 # Data directory and JSON files
 data/
 *.json
+
+.claude/
+
