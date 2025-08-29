@@ -17,8 +17,19 @@ def main():
     user_agent = os.getenv('REDDIT_USER_AGENT')
 
     # Check if credentials are set
-    if not all([client_id, client_secret, user_agent]):
-        print("Error: Reddit API credentials are not set. Please set REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, and REDDIT_USER_AGENT environment variables.")
+    missing_credentials = []
+    if not client_id:
+        missing_credentials.append('REDDIT_CLIENT_ID')
+    if not client_secret:
+        missing_credentials.append('REDDIT_CLIENT_SECRET')
+    if not user_agent:
+        missing_credentials.append('REDDIT_USER_AGENT')
+    
+    if missing_credentials:
+        print(f"Error: Missing required Reddit API credentials: {', '.join(missing_credentials)}")
+        print("Please set the following environment variables:")
+        for cred in missing_credentials:
+            print(f"  - {cred}")
         return
 
     # Ensure data directory exists and get full output path
