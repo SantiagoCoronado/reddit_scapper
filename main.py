@@ -1,5 +1,10 @@
 import argparse
+import os
+from dotenv import load_dotenv
 from models import RedditScraper
+
+# Load environment variables from .env file
+load_dotenv()
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -46,10 +51,10 @@ def main():
     # Parse command line arguments
     args = parse_args()
     
-    # Reddit API credentials
-    client_id = "o8dGPlvlh38qX28xWYypiA"
-    client_secret = "AZ5FOHRLzrXCOPaOiKgnNO1-ardRbQ"
-    user_agent = "reddit_scrapper by /u/YOUR_USERNAME"
+    # Get Reddit API credentials from environment variables
+    client_id = os.getenv('REDDIT_CLIENT_ID')
+    client_secret = os.getenv('REDDIT_CLIENT_SECRET')
+    user_agent = os.getenv('REDDIT_USER_AGENT')
 
     # Initialize the scraper with custom timeframe
     scraper = RedditScraper(client_id, client_secret, user_agent, 
