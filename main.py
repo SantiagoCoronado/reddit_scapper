@@ -12,20 +12,20 @@ def parse_args():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog='''
 Examples:
-  # Search all of Reddit for posts with "padel" in the title
-  python main.py -o title_includes_padel.json -t padel
+  # Search all of Reddit for posts about AI
+  python main.py -o data/ai_posts.json -t "artificial intelligence"
 
-  # Get all posts from r/Padel from the last 30 days
-  python main.py -o recent_padel_posts.json -s Padel --timeframe 30
+  # Get recent posts from r/Programming (last 30 days)
+  python main.py -o data/programming_posts.json -s Programming --timeframe 30
 
-  # Search r/Padel for posts with "indoor" in the title and limit to 50 posts
-  python main.py -o indoor_padel.json -s Padel -t indoor -l 50
+  # Search r/Technology for posts about ChatGPT (limit to 50 posts)
+  python main.py -o data/chatgpt_tech.json -s Technology -t chatgpt -l 50
 
-  # Search for posts with "padel" in the title and "indoor" in the content
-  python main.py -o indoor_padel_content.json -t padel -c indoor
+  # Find gaming posts discussing performance issues
+  python main.py -o data/gaming_performance.json -s Gaming -t performance -c "fps|lag|stuttering"
 
-  # Get all posts from r/Padel in the last week
-  python main.py -o weekly_padel.json -s Padel --timeframe 7
+  # Get trending posts from r/WorldNews in the last week
+  python main.py -o data/weekly_news.json -s WorldNews --timeframe 7
         '''
     )
     

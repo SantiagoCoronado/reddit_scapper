@@ -40,24 +40,24 @@ pip install praw python-dotenv
 
 ## Usage Examples
 
-1. Search all of Reddit for posts with "padel" in the title:
+1. Search all of Reddit for posts about AI:
 ```bash
-python main.py -o data/title_includes_padel.json -t padel
+python main.py -o data/ai_posts.json -t "artificial intelligence"
 ```
 
-2. Get all posts from r/Padel from the last 30 days:
+2. Get recent posts from r/Programming (last 30 days):
 ```bash
-python main.py -o data/recent_padel_posts.json -s Padel --timeframe 30
+python main.py -o data/programming_posts.json -s Programming --timeframe 30
 ```
 
-3. Search r/Padel for posts with "indoor" in the title and limit to 50 posts:
+3. Search r/Technology for posts about ChatGPT (limit to 50 posts):
 ```bash
-python main.py -o data/indoor_padel.json -s Padel -t indoor -l 50
+python main.py -o data/chatgpt_tech.json -s Technology -t chatgpt -l 50
 ```
 
-4. Search for posts with "padel" in the title and "indoor" in the content:
+4. Find gaming posts discussing performance issues:
 ```bash
-python main.py -o data/indoor_padel_content.json -t padel -c indoor
+python main.py -o data/gaming_performance.json -s Gaming -t performance -c "fps|lag|stuttering"
 ```
 
 ## Command Line Arguments
