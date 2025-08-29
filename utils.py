@@ -1,5 +1,6 @@
 import argparse
 import os
+from error_handler import RedditAPIError
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -40,10 +41,55 @@ Examples:
     parser.add_argument('--limit', '-l', type=int, default=None,
                       help='Maximum number of posts to retrieve (default: None, retrieves all matching posts)')
     
-    return parser.parse_args()
+    args = parser.parse_args()
+    
+    # Validate arguments
+    try:
+        validate_search_params(
+            args.subreddit, 
+            args.title, 
+            args.content, 
+            args.timeframe, 
+            args.limit
+        )
+    except RedditAPIError as e:
+        from error_handler import ErrorHandler
+        ErrorHandler.print_error(e)
+        exit(1)
+    
+    return args
 
 def ensure_data_dir():
     """Create the data directory if it doesn't exist."""
     data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
     os.makedirs(data_dir, exist_ok=True)
     return data_dir
+
+
+def validate_credentials(client_id, client_secret, user_agent):
+    """Validate Reddit API credentials"""
+    missing_credentials = []
+    if not client_id:
+        missing_credentials.append('REDDIT_CLIENT_ID')
+    if not client_secret:
+        missing_credentials.append('REDDIT_CLIENT_SECRET')
+    if not user_agent:
+        missing_credentials.append('REDDIT_USER_AGENT')
+    
+    if missing_credentials:
+        raise RedditAPIError(f"Missing required Reddit API credentials: {', '.join(missing_credentials)}")
+
+
+def validate_search_params(subreddit, title, content, timeframe, limit):
+    """Validate search parameters"""
+    if timeframe is not None and (timeframe < 1 or timeframe > 3650):
+        raise RedditAPIError("Timeframe must be between 1 and 3650 days")
+    
+    if limit is not None and limit < 1:
+        raise RedditAPIError("Limit must be at least 1")
+    
+    if subreddit and len(subreddit.strip()) == 0:
+        raise RedditAPIError("Subreddit name cannot be empty")
+    
+    if not title and not content and subreddit == 'all':
+        raise RedditAPIError("When searching all of Reddit, you must specify either title or content search terms")
