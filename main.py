@@ -13,19 +13,19 @@ def parse_args():
         epilog='''
 Examples:
   # Search all of Reddit for posts about AI
-  python main.py -o data/ai_posts.json -t "artificial intelligence"
+  python main.py -o ai_posts.json -t "artificial intelligence"
 
   # Get recent posts from r/Programming (last 30 days)
-  python main.py -o data/programming_posts.json -s Programming --timeframe 30
+  python main.py -o programming_posts.json -s Programming --timeframe 30
 
   # Search r/Technology for posts about ChatGPT (limit to 50 posts)
-  python main.py -o data/chatgpt_tech.json -s Technology -t chatgpt -l 50
+  python main.py -o chatgpt_tech.json -s Technology -t chatgpt -l 50
 
   # Find gaming posts discussing performance issues
-  python main.py -o data/gaming_performance.json -s Gaming -t performance -c "fps|lag|stuttering"
+  python main.py -o gaming_performance.json -s Gaming -t performance -c "fps|lag|stuttering"
 
   # Get trending posts from r/WorldNews in the last week
-  python main.py -o data/weekly_news.json -s WorldNews --timeframe 7
+  python main.py -o weekly_news.json -s WorldNews --timeframe 7
         '''
     )
     
@@ -47,6 +47,12 @@ Examples:
     
     return parser.parse_args()
 
+def ensure_data_dir():
+    """Create the data directory if it doesn't exist."""
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    os.makedirs(data_dir, exist_ok=True)
+    return data_dir
+
 def main():
     # Parse command line arguments
     args = parse_args()
@@ -55,6 +61,12 @@ def main():
     client_id = os.getenv('REDDIT_CLIENT_ID')
     client_secret = os.getenv('REDDIT_CLIENT_SECRET')
     user_agent = os.getenv('REDDIT_USER_AGENT')
+    
+    # Ensure data directory exists and get full output path
+    data_dir = ensure_data_dir()
+    output_path = os.path.join(data_dir, args.output)
+    if not output_path.endswith('.json'):
+        output_path += '.json'
 
     # Initialize the scraper with custom timeframe
     scraper = RedditScraper(client_id, client_secret, user_agent, 
@@ -69,7 +81,7 @@ def main():
     )
 
     # Save the results
-    scraper.save_posts(posts_data, args.output)
+    scraper.save_posts(posts_data, output_path)
 
 if __name__ == "__main__":
     main()

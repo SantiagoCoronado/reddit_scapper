@@ -42,22 +42,22 @@ pip install praw python-dotenv
 
 1. Search all of Reddit for posts about AI:
 ```bash
-python main.py -o data/ai_posts.json -t "artificial intelligence"
+python main.py -o ai_posts.json -t "artificial intelligence"
 ```
 
 2. Get recent posts from r/Programming (last 30 days):
 ```bash
-python main.py -o data/programming_posts.json -s Programming --timeframe 30
+python main.py -o programming_posts.json -s Programming --timeframe 30
 ```
 
 3. Search r/Technology for posts about ChatGPT (limit to 50 posts):
 ```bash
-python main.py -o data/chatgpt_tech.json -s Technology -t chatgpt -l 50
+python main.py -o chatgpt_tech.json -s Technology -t chatgpt -l 50
 ```
 
 4. Find gaming posts discussing performance issues:
 ```bash
-python main.py -o data/gaming_performance.json -s Gaming -t performance -c "fps|lag|stuttering"
+python main.py -o gaming_performance.json -s Gaming -t performance -c "fps|lag|stuttering"
 ```
 
 ## Command Line Arguments
@@ -70,6 +70,8 @@ python main.py -o data/gaming_performance.json -s Gaming -t performance -c "fps|
 - `-l, --limit`: Maximum number of posts to retrieve (default: None)
 
 ## Output Format
+
+The tool automatically saves all output files in the `data` directory within the project. You don't need to specify the directory in the command - just provide the desired filename and it will be placed in the correct location.
 
 The tool saves posts in JSON format with the following information for each post:
 - Post ID
