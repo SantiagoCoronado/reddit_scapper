@@ -1,0 +1,119 @@
+import argparse
+from models import RedditScraper
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Reddit Post Scraper - A tool to scrape and save Reddit posts with flexible search criteria',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='''
+Examples:
+  # Search all of Reddit for posts with "padel" in the title
+  python main.py -o title_includes_padel.json -t padel
+
+  # Get all posts from r/Padel from the last 30 days
+  python main.py -o recent_padel_posts.json -s Padel --timeframe 30
+
+  # Search r/Padel for posts with "indoor" in the title and limit to 50 posts
+  python main.py -o indoor_padel.json -s Padel -t indoor -l 50
+
+  # Search for posts with "padel" in the title and "indoor" in the content
+  python main.py -o indoor_padel_content.json -t padel -c indoor
+
+  # Get all posts from r/Padel in the last week
+  python main.py -o weekly_padel.json -s Padel --timeframe 7
+        '''
+    )
+    
+    # Required arguments
+    parser.add_argument('--output', '-o', type=str, required=True,
+                      help='Output JSON file name where the scraped posts will be saved')
+    
+    # Optional arguments with defaults
+    parser.add_argument('--subreddit', '-s', type=str, default='all',
+                      help='Subreddit to search (default: "all" for all of Reddit)')
+    parser.add_argument('--title', '-t', type=str,
+                      help='Search for posts containing this term in their titles')
+    parser.add_argument('--content', '-c', type=str,
+                      help='Search for posts containing this term in their content/body')
+    parser.add_argument('--timeframe', '-tf', type=int, default=365,
+                      help='Number of days to look back (default: 365 days)')
+    parser.add_argument('--limit', '-l', type=int, default=None,
+                      help='Maximum number of posts to retrieve (default: None, retrieves all matching posts)')
+    
+    return parser.parse_args()
+
+def main():
+    # Parse command line arguments
+    args = parse_args()
+    
+    # Reddit API credentials
+    client_id = "o8dGPlvlh38qX28xWYypiA"
+    client_secret = "AZ5FOHRLzrXCOPaOiKgnNO1-ardRbQ"
+    user_agent = "reddit_scrapper by /u/YOUR_USERNAME"
+
+    # Initialize the scraper with custom timeframe
+    scraper = RedditScraper(client_id, client_secret, user_agent, 
+                           days_ago=args.timeframe)
+
+    # Perform the search with the provided criteria
+    posts_data = scraper.search_posts(
+        subreddit=args.subreddit,
+        title=args.title,
+        content=args.content,
+        limit=args.limit
+    )
+
+    # Save the results
+    scraper.save_posts(posts_data, args.output)
+
+if __name__ == "__main__":
+    main()
+
+print("Searching all of Reddit for posts containing 'padel' in their titles from the last year...")
+
+# Use Reddit's search functionality to find posts across all subreddits
+for submission in reddit.subreddit("all").search(
+    'title:padel', 
+    sort='new', 
+    time_filter='year', 
+    limit=None
+):
+    # Stop if we reach posts older than a year
+    post_time = submission.created_utc
+    if post_time < one_year_ago:
+        break
+        
+    # Extract post data and comments
+    submission.comments.replace_more(limit=None)  # Expand all "load more comments" links
+    comments_data = []
+    for comment in submission.comments:
+        if isinstance(comment, praw.models.Comment):
+            comments_data.append(get_comments_data(comment))
+    
+    post_data = {
+        'id': submission.id,
+        'subreddit': str(submission.subreddit),
+        'title': submission.title,
+        'url': submission.url,
+        'created_utc': submission.created_utc,
+        'created_date': datetime.fromtimestamp(submission.created_utc, tz=timezone.utc).isoformat(),
+        'author': str(submission.author),
+        'score': submission.score,
+        'upvote_ratio': submission.upvote_ratio,
+        'num_comments': submission.num_comments,
+        'selftext': submission.selftext,  # Post content/body
+        'permalink': submission.permalink,
+        'comments': comments_data
+    }
+    
+    posts_data.append(post_data)
+    print(f"Fetched post: {submission.title}")
+
+print(f"\nTotal posts collected: {len(posts_data)}")
+
+# Save to JSON file
+output_file = 'title_includes_padel.json'
+with open(output_file, 'w', encoding='utf-8') as f:
+    json.dump(posts_data, f, indent=2, ensure_ascii=False)
+
+print(f"\nSaved {len(posts_data)} posts from all subreddits to {output_file}")
