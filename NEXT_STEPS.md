@@ -3,11 +3,21 @@
 ## IMMEDIATE PRIORITIES
 
 ### 1. Input File Format Enhancement
+- Review system with various examples
 - Remove the requirement for `.json` extension in the input
 - Automatically handle file extension
 - Add validation for valid filename characters
 
-### 2. JSON File Processing
+### 2. Smart Research Assistant
+- Implement LLM-powered research recommendation system
+- Features:
+  - Natural language research query input
+  - LLM analysis to suggest relevant subreddits
+  - Automated keyword extraction and optimization
+  - Timeframe recommendations based on topic trends
+  - Query refinement suggestions
+
+### 3. JSON File Processing
 - Implement file splitting functionality based on:
   - Token count (for LLM processing)
   - Character limit
