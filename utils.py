@@ -26,8 +26,14 @@ Examples:
     )
     
     # Required arguments
-    parser.add_argument('--output', '-o', type=str, required=True,
+    parser.add_argument('--output', '-o', type=str, required=False,
                       help='Output JSON file name where the scraped posts will be saved')
+    
+    # Research assistant mode
+    parser.add_argument('--research', '-r', type=str,
+                      help='Research question to send to LLM API (skips scraping)')
+    parser.add_argument('--provider', '-p', type=str, choices=['anthropic', 'openai'], default='anthropic',
+                      help='LLM provider to use for research mode (default: anthropic)')
     
     # Optional arguments with defaults
     parser.add_argument('--subreddit', '-s', type=str, default='all',
@@ -44,18 +50,31 @@ Examples:
     args = parser.parse_args()
     
     # Validate arguments
-    try:
-        validate_search_params(
-            args.subreddit, 
-            args.title, 
-            args.content, 
-            args.timeframe, 
-            args.limit
-        )
-    except RedditAPIError as e:
-        from error_handler import ErrorHandler
-        ErrorHandler.print_error(e)
-        exit(1)
+    if args.research:
+        # Research mode: only validate that we have a research question
+        if not args.research.strip():
+            from error_handler import ErrorHandler, RedditAPIError
+            ErrorHandler.print_error(RedditAPIError("Research question cannot be empty"))
+            exit(1)
+    else:
+        # Normal scraping mode: validate output is required and search params
+        if not args.output:
+            from error_handler import ErrorHandler, RedditAPIError
+            ErrorHandler.print_error(RedditAPIError("--output/-o is required when not using research mode"))
+            exit(1)
+        
+        try:
+            validate_search_params(
+                args.subreddit, 
+                args.title, 
+                args.content, 
+                args.timeframe, 
+                args.limit
+            )
+        except RedditAPIError as e:
+            from error_handler import ErrorHandler
+            ErrorHandler.print_error(e)
+            exit(1)
     
     return args
 
