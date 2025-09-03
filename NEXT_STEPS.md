@@ -5,11 +5,12 @@
 ### 1. Smart Research Assistant
 - Implement LLM-powered research recommendation system
 - Features:
-  - Natural language research query input
-  - LLM analysis to suggest relevant subreddits
-  - Automated keyword extraction and optimization
-  - Timeframe recommendations based on topic trends
-  - Query refinement suggestions
+  - Natural language research query input ---- DONE
+  - LLM analysis to suggest relevant subreddits ---- DONE
+  - Automated keyword, timeframe, etc extraction and optimization
+    - New prompt for extraction
+    - New method for extraction
+  - Timeframe recommendations based on topic trends ---- DONE
 
 ### 2. JSON File Processing
 - Implement file splitting functionality based on:
