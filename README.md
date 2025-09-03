@@ -40,11 +40,11 @@ pip install praw python-dotenv requests
    ```
    # For Anthropic Claude
    CLAUDE_API_KEY=your_claude_api_key_here
-   CLAUDE_MODEL=claude-sonnet-4-20250514  # Optional: defaults to claude-sonnet-4-20250514
+   CLAUDE_MODEL=claude-3-7-sonnet-latest  # Optional: defaults to claude-3-7-sonnet-latest
 
    # For OpenAI ChatGPT
    OPENAI_API_KEY=your_openai_api_key_here
-   OPENAI_MODEL=gpt-4  # Optional: defaults to gpt-4
+   OPENAI_MODEL=gpt-5-mini  # Optional: defaults to gpt-5-mini
    ```
 
    **Getting API credentials:**
@@ -127,7 +127,7 @@ You can customize which specific models to use by setting environment variables 
 ### Anthropic Claude Models
 ```bash
 # Available Claude models (set in .env)
-CLAUDE_MODEL=claude-sonnet-4-20250514      # Latest Sonnet 4 (default)
+CLAUDE_MODEL=claude-3-7-sonnet-latest      # Latest Sonnet 3.7 (default)
 CLAUDE_MODEL=claude-3-5-sonnet-20241022    # Claude 3.5 Sonnet
 CLAUDE_MODEL=claude-3-5-haiku-20241022     # Claude 3.5 Haiku (faster, cheaper)
 CLAUDE_MODEL=claude-3-opus-20240229        # Claude 3 Opus (most capable)
@@ -136,7 +136,7 @@ CLAUDE_MODEL=claude-3-opus-20240229        # Claude 3 Opus (most capable)
 ### OpenAI ChatGPT Models  
 ```bash
 # Available OpenAI models (set in .env)
-OPENAI_MODEL=gpt-4                         # GPT-4 (default)
+OPENAI_MODEL=gpt-5-mini                    # GPT-5 Mini (default)
 OPENAI_MODEL=gpt-4-turbo                   # GPT-4 Turbo (faster)
 OPENAI_MODEL=gpt-4o                        # GPT-4o (latest)
 OPENAI_MODEL=gpt-3.5-turbo                 # GPT-3.5 Turbo (cheaper)

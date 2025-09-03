@@ -48,8 +48,8 @@ def call_anthropic_api(research_question, system_prompt):
     if not api_key:
         raise RedditAPIError("CLAUDE_API_KEY environment variable is required for Anthropic")
     
-    # Get model from environment variable, default to claude-sonnet-4-20250514
-    model = os.getenv('CLAUDE_MODEL', 'claude-sonnet-4-20250514')
+    # Get model from environment variable, default to sonnet 3.7
+    model = os.getenv('CLAUDE_MODEL', 'claude-3-7-sonnet-latest')
     
     headers = {
         'Content-Type': 'application/json',
@@ -91,8 +91,8 @@ def call_openai_api(research_question, system_prompt):
     if not api_key:
         raise RedditAPIError("OPENAI_API_KEY environment variable is required for OpenAI")
     
-    # Get model from environment variable, default to gpt-4
-    model = os.getenv('OPENAI_MODEL', 'gpt-4')
+    # Get model from environment variable, default to gpt-5-mini
+    model = os.getenv('OPENAI_MODEL', 'gpt-5-mini')
     
     headers = {
         'Content-Type': 'application/json',
